@@ -15,7 +15,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('/', (req, res) => {
+app.get('/companies', (req, res) => {
   company_model.getCompanies()
     .then((companies) => {
       res.status(200).json(companies);
