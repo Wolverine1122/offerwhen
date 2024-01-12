@@ -1,0 +1,33 @@
+/* mobile-first */
+
+:root {
+  --background-color: #03131A;
+  --primary-color: #F8F8F8;
+  --highlight-color: #A667E4;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--primary-color);
+  font-family: "Courier Prime", monospace;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1rem;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+/* tablet */
+@media screen and (min-width: 600px) { 
+}
+
+/* desktop */
+@media screen and (min-width: 1024px) { 
+}
+
+/* large desktop */
+@media screen and (min-width: 1200px) { 
+}
