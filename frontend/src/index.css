@@ -13,6 +13,7 @@ body {
   font-weight: 400;
   font-style: normal;
   font-size: 1rem;
+  padding: 15px 25px;
 }
 
 h1 {
@@ -22,12 +23,32 @@ h1 {
 
 /* tablet */
 @media screen and (min-width: 600px) { 
+  body {
+    padding: 15px 60px;
+  }
 }
 
 /* desktop */
 @media screen and (min-width: 1024px) { 
+  body {
+    padding: 15px 100px;
+  }
 }
 
 /* large desktop */
 @media screen and (min-width: 1200px) { 
+  body {
+    padding: 15px 150px;
+  }
 }
+
+/* extra large desktop */
+@media screen and (min-width: 1400px) { 
+  body {
+    padding: 15px 250px;
+  }
+}
+
+/* * {
+  border: 1px solid red !important;
+} */

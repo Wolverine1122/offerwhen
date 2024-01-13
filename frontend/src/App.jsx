@@ -6,6 +6,7 @@ import Company from './pages/Company/Company';
 import NotFound from './pages/NotFound/NotFound';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
+import DiscordBot from './pages/DiscordBot/DiscordBot';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route index element = {<Companies />} />
           <Route path = ":id" element = {<Company />} />
         </Route>
+        <Route path = "/discord-bot" element = {<DiscordBot />} />
         <Route path = "*" element = {<NotFound />} />
       </Routes>
       <Footer />
