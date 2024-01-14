@@ -63,4 +63,9 @@
 .menu a {
   text-decoration: none;
   color: var(--background-color);
+
+  &:hover {
+    color: var(--highlight-color);
+    transition: 0.3s ease-in-out;
+  }
 }

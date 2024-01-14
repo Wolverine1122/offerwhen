@@ -60,6 +60,16 @@
   font-family: "Courier Prime", monospace;
   font-weight: 400;
   font-size: 1rem;
+
+  &:hover {
+    color: var(--highlight-color);
+    transition: 0.3s ease-in-out;
+  }
+
+  &:hover .chevron-down {
+    filter: invert(63%) sepia(59%) saturate(6021%) hue-rotate(237deg) brightness(97%) contrast(85%);
+    transition: 0.3s ease-in-out;
+  }
 }
 
 .szh-accordion__item-content {
@@ -69,6 +79,13 @@
   padding: 1rem;
 }
 
+.szh-accordion__item--expanded .szh-accordion__item-btn {
+  color: var(--highlight-color);
+  transition: 0.3s ease-in-out;
+}
+
 .szh-accordion__item--expanded .chevron-down {
   transform: rotate(180deg);
+  filter: invert(63%) sepia(59%) saturate(6021%) hue-rotate(237deg) brightness(97%) contrast(85%);
+  transition: 0.3s ease-in-out;
 }

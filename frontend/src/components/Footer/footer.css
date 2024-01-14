@@ -1,0 +1,29 @@
+.footer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: center;
+  align-items: center;
+
+  & .logo-brand {
+    display: grid;
+    row-gap: 1rem;
+    justify-items: center;
+    align-items: center;
+  }
+
+  & .footer-links {
+    display: grid;
+    row-gap: 1rem;
+
+    & a {
+      color: var(--primary-color);
+      text-decoration: none;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--highlight-color);
+        transition: 0.3s ease-in-out;
+      }
+    }
+  }
+}
