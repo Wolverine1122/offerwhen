@@ -10,9 +10,9 @@ const Footer = () => {
         <h3>OfferWhen</h3>
       </div>
       <div className="footer-links">
-        <Link to="/about">About us</Link>
-        <Link to="/contact">Contact us</Link>
-        <Link to="/privacy">Privacy policy</Link>
+        <Link to="/about">About</Link>
+        <Link to="/contact">Contact</Link>
+        <Link to="/privacy">Privacy</Link>
       </div>
     </div>
   )

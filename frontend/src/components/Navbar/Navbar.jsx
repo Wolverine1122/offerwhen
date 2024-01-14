@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../Logo/logo';
+import Logo from '../Logo/Logo';
 import './navbar.css';
 
 const Navbar = () => {
@@ -26,7 +26,7 @@ const Navbar = () => {
 
   return (
     <div className="navbar">
-      <Logo />
+      <Logo className="logo"/>
       <div
         className={`menu-icon ${menuOpen ? 'open' : ''}`}
         onClick={toggleMenu}

@@ -1,15 +1,22 @@
 .navbar {
   display: grid;
-  grid-template-columns: max-content auto;
+  grid-template-columns: max-content 1fr max-content;
   align-items: center;
+  grid-template-areas: "logo . menu-icon";
 }
 
 .menu-icon {
+  grid-area: menu-icon;
   display: grid;
   grid-template-rows: repeat(3, max-content);
   row-gap: 7px;
   justify-items: end;
   cursor: pointer;
+
+  &:hover .bar {
+    background-color: var(--highlight-color);
+    transition: 0.3s ease-in-out;
+  }
 }
 
 .bar {
@@ -30,6 +37,11 @@
   grid-gap: 15px;
   width: max-content;
   border-radius: 5px;
+}
+
+.open .bar {
+  background-color: var(--highlight-color);
+  transition: 0.3s ease-in-out;
 }
 
 /* tablet */
