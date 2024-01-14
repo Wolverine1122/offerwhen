@@ -1,3 +1,6 @@
+import { Accordion, AccordionItem } from '@szhsin/react-accordion';
+import faqItems from './faq.json';
+import chevronDown from '../../icons/chevron-down.svg';
 import './about.css'
 
 const About = () => {
@@ -11,7 +14,20 @@ const About = () => {
         <p>It can soon be a mundane job to keep track of the minimum you gotta do to pass these stages.</p>
         <p>So I decided to change the world and create yet another CRUD app.</p>
       </div>
-      <div className="faq"></div>
+      <div className="faq">
+        <h1>FAQ</h1>
+        <div className="faq-accordion">
+          <Accordion allowMultiple transition transitionTimeout={250}>
+            {faqItems.map(({ header, content}, i) => (
+              <AccordionItem key={i} header={<>
+              {header}<img className="chevron-down" src={chevronDown} alt="down arrow"></img>
+              </>}>
+                <p>{content}</p>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </div>
     </div>
   )
 }

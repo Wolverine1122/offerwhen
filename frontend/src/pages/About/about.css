@@ -16,3 +16,59 @@
     line-height: 1.5rem;
   }
 }
+
+.faq {
+  padding: 50px 0px;
+}
+
+/* tablet and larger */
+@media screen and (min-width: 600px) { 
+  .faq {
+    padding: 50px 10%;
+  }
+}
+
+.faq-accordion {
+  padding-top: 20px;
+}
+
+.chevron-down {
+  margin-left: auto;
+  transition: transform 0.25s cubic-bezier(0, 0, 0, 1);
+  filter: invert(100%) sepia(46%) saturate(19%) hue-rotate(187deg) brightness(111%) contrast(95%);
+}
+
+.szh-accordion {
+  border-bottom: 1px solid var(--primary-color);
+}
+
+.szh-accordion__item {
+  border-top: 1px solid var(--primary-color);
+}
+
+.szh-accordion__item-btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: 1rem;
+  text-align: left;
+  color: var(--primary-color);
+  background-color: transparent;
+  border: none;
+  font-family: "Courier Prime", monospace;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.szh-accordion__item-content {
+  transition: height 0.25s cubic-bezier(0, 0, 0, 1);
+}
+.szh-accordion__item-panel {
+  padding: 1rem;
+}
+
+.szh-accordion__item--expanded .chevron-down {
+  transform: rotate(180deg);
+}
