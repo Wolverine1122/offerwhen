@@ -45,28 +45,28 @@
 }
 
 /* tablet */
-@media screen and (min-width: 600px) { 
+@media screen and (min-width: 600px) {
   .menu {
     right: 60px;
   }
 }
 
 /* desktop */
-@media screen and (min-width: 1024px) { 
+@media screen and (min-width: 1024px) {
   .menu {
     right: 100px;
   }
 }
 
 /* large desktop */
-@media screen and (min-width: 1200px) { 
+@media screen and (min-width: 1200px) {
   .menu {
     right: 150px;
   }
 }
 
 /* extra large desktop */
-@media screen and (min-width: 1400px) { 
+@media screen and (min-width: 1400px) {
   .menu {
     right: 250px;
   }

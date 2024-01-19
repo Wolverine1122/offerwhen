@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import Logo from '../Logo/Logo';
-import './footer.css'
+import { Link } from "react-router-dom";
+import Logo from "../Logo/Logo";
+import "./footer.css";
 
 const Footer = () => {
   return (
@@ -15,7 +15,7 @@ const Footer = () => {
         <Link to="/privacy">Privacy</Link>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Footer;

@@ -1,9 +1,9 @@
 /* mobile-first */
 
 :root {
-  --background-color: #03131A;
-  --primary-color: #F8F8F8;
-  --highlight-color: #A667E4;
+  --background-color: #03131a;
+  --primary-color: #f8f8f8;
+  --highlight-color: #a667e4;
 }
 
 body {
@@ -22,28 +22,28 @@ h1 {
 }
 
 /* tablet */
-@media screen and (min-width: 600px) { 
+@media screen and (min-width: 600px) {
   body {
     padding: 15px 60px;
   }
 }
 
 /* desktop */
-@media screen and (min-width: 1024px) { 
+@media screen and (min-width: 1024px) {
   body {
     padding: 15px 100px;
   }
 }
 
 /* large desktop */
-@media screen and (min-width: 1200px) { 
+@media screen and (min-width: 1200px) {
   body {
     padding: 15px 150px;
   }
 }
 
 /* extra large desktop */
-@media screen and (min-width: 1400px) { 
+@media screen and (min-width: 1400px) {
   body {
     padding: 15px 250px;
   }

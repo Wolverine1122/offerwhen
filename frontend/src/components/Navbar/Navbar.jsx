@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Logo from '../Logo/Logo';
-import './navbar.css';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import Logo from "../Logo/Logo";
+import "./navbar.css";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -11,31 +11,31 @@ const Navbar = () => {
   };
 
   const closeMenuOutsideClick = (e) => {
-    if (menuOpen && !e.target.closest('.menu-icon')) {
+    if (menuOpen && !e.target.closest(".menu-icon")) {
       setMenuOpen(false);
     }
   };
 
   useEffect(() => {
-    document.addEventListener('click', closeMenuOutsideClick);
+    document.addEventListener("click", closeMenuOutsideClick);
 
     return () => {
-      document.removeEventListener('click', closeMenuOutsideClick);
+      document.removeEventListener("click", closeMenuOutsideClick);
     };
   }, [menuOpen]);
 
   return (
     <div className="navbar">
-      <Logo className="logo"/>
+      <Logo className="logo" />
       <div
-        className={`menu-icon ${menuOpen ? 'open' : ''}`}
+        className={`menu-icon ${menuOpen ? "open" : ""}`}
         onClick={toggleMenu}
       >
         <div className="bar"></div>
         <div className="bar"></div>
         <div className="bar"></div>
       </div>
-      <div className="menu" style={{ display: menuOpen ? 'grid' : 'none' }}>
+      <div className="menu" style={{ display: menuOpen ? "grid" : "none" }}>
         <Link to="/" onClick={toggleMenu}>
           Home
         </Link>
