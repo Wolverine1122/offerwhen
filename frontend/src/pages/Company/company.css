@@ -1,0 +1,17 @@
+.company {
+  display: grid;
+
+  & .basic-info {
+    & img {
+      width: 50px;
+    }
+  }
+
+  & .oa-section {
+    display: grid;
+
+    & h2 {
+      text-align: center;
+    }
+  }
+}

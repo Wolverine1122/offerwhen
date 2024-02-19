@@ -1,9 +1,9 @@
 import { format } from "date-fns";
 
-export const COLUMNS = [
+const COLUMNS = [
   {
     Header: "Date",
-    accessor: "date",
+    accessor: "assessment_date",
     Cell: ({ value }) => {
       return format(new Date(value), "dd/MM/yyyy");
     },
@@ -22,3 +22,5 @@ export const COLUMNS = [
     accessor: "status",
   },
 ];
+
+export default COLUMNS;

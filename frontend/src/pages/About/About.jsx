@@ -41,7 +41,7 @@ const About = () => {
                       className="chevron-down"
                       src={chevronDown}
                       alt="down arrow"
-                    ></img>
+                    />
                   </>
                 }
               >

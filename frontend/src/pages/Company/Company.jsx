@@ -1,24 +1,42 @@
 import { useParams } from "react-router-dom";
-import BasicTable from "../../components/BasicTable/BasicTable";
-import DUMMY_DATA from "./dummy.json";
+import { useQuery } from "@tanstack/react-query";
+import OnlineAssessment from "./OnlineAssessment";
+import { fetchCompany } from "./Api";
 import "./company.css";
 
 const Company = () => {
   const { id } = useParams();
 
-  const selectedCompany = DUMMY_DATA.find((company) => company.id === id);
-  if (!selectedCompany) {
-    return <p>Company not found!</p>;
-  }
+  const { isLoading, isError, data, isSuccess } = useQuery({
+    queryKey: ["companies", id],
+    queryFn: () => fetchCompany(id),
+  });
 
-  const { name, url, OA } = selectedCompany;
+  let logoBase64 = null;
+  if (data && data.logo) {
+    const bytes = new Uint8Array(data.logo.data);
+    let binary = "";
+    for (let i = 0; i < bytes.length; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    logoBase64 = "data:image/png;base64," + btoa(binary);
+  }
 
   return (
     <>
-      <h1>{name}</h1>
-      <p>{url}</p>
-      <h2>OA: {OA.platform}</h2>
-      <BasicTable company_data={OA.data} />
+      {isLoading && <div>Loading...</div>}
+      {isError && <div>Company not found</div>}
+      {isSuccess && (
+        <div className="company">
+          <div className="basic-info">
+            <h1>{data.name}</h1>
+            <p>{data.url}</p>
+            <p>{data.about}</p>
+            {data.logo && <img src={logoBase64} alt={data.name} />}
+          </div>
+          <OnlineAssessment company={id} />
+        </div>
+      )}
     </>
   );
 };
