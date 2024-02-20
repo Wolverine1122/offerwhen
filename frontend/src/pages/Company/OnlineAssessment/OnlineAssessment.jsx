@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import propTypes from "prop-types";
 import BasicTable from "../../../components/BasicTable/BasicTable";
-import NewPost from "../NewPost";
+import NewPost from "../../../components/NewPost/NewPost";
 import { fetchOnlineAssessmentData } from "../../../Api";
 import COLUMNS from "../columns";
 import chevronLeft from "../../../icons/chevron-left.svg";
@@ -10,13 +10,14 @@ import chevronRight from "../../../icons/chevron-right.svg";
 import "./online-assessment.css";
 
 const OnlineAssessment = ({ company }) => {
-  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedRows, setSelectedRows] = useState(new Set());
   const [queryCursorDate, setQueryCursorDate] = useState(
     new Date().toISOString(),
   );
   const [queryCursorId, setQueryCursorId] = useState(null);
   const [queryLimit, setQueryLimit] = useState(5);
   const [direction, setDirection] = useState("next");
+  const [showNewPost, setShowNewPost] = useState(false);
 
   const { isLoading, isError, data, isSuccess } = useQuery({
     queryKey: [
@@ -93,7 +94,7 @@ const OnlineAssessment = ({ company }) => {
           <div className="modify">
             <button
               className="add-button regular-button"
-              onClick={() => <NewPost />}
+              onClick={() => setShowNewPost(true)}
             >
               Add
             </button>
@@ -141,6 +142,7 @@ const OnlineAssessment = ({ company }) => {
         </div>
       </div>
       <pre>{JSON.stringify({ selectedRows }, null, 2)}</pre>
+      {showNewPost && <NewPost company={company} />}
     </div>
   );
 };
