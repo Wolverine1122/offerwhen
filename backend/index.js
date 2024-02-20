@@ -15,34 +15,54 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('/api/companies', (req, res) => {
-  company_model.getCompanies()
-    .then((companies) => {
-      res.status(200).json(companies);
-    })
-    .catch((error) => {
-      res.status(500).json({ error: error.message });
-    });
+app.get('/api/companies', async (req, res) => {
+  try {
+    const companies = await company_model.getCompanies();
+    res.status(200).json(companies);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
-app.get('/api/companies/:companyId', (req, res) => {
-  company_model.getCompany(req.params.companyId)
-    .then((company) => {
-      res.status(200).json(company);
-    })
-    .catch((error) => {
-      res.status(500).json({ error: error.message });
-    });
+app.get('/api/companies/:companyId', async (req, res) => {
+  const { companyId } = req.params;
+  try {
+    const company = await company_model.getCompany(companyId);
+    res.status(200).json(company);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
-app.get('/api/companies/:companyId/oa', (req, res) => {
-  company_model.getCompanyOnlineAssessment(req.params.companyId, req.query.cursor, req.query.limit)
-    .then((onlineAssessment) => {
-      res.status(200).json(onlineAssessment);
-    })
-    .catch((error) => {
-      res.status(500).json({ error: error.message });
+app.get('/api/companies/:companyId/oa', async (req, res) => {
+  const { companyId } = req.params;
+  const { cursorDate, cursorId, limit, direction } = req.query;
+  const safeCursorId = cursorId === 'null' ? null : cursorId;
+  try {
+    const initialResults = await company_model.getCompanyOnlineAssessment(companyId, cursorDate, safeCursorId, limit, direction);
+    let hasNextPage = false;
+    let hasPrevPage = false;
+
+    if (initialResults.length > 0) {
+      const nextPageCursorId = initialResults[initialResults.length - 1].assessment_id;
+      const nextPageCursorDate = initialResults[initialResults.length - 1].entry_date.toISOString();
+      const nextPageResults = await company_model.getCompanyOnlineAssessment(companyId, nextPageCursorDate, nextPageCursorId, 1, "next");
+
+      const prevPageCursorId = initialResults[0].assessment_id;
+      const prevPageCursorDate = initialResults[0].entry_date.toISOString();
+      const prevPageResults = await company_model.getCompanyOnlineAssessment(companyId, prevPageCursorDate, prevPageCursorId, 1, "prev");
+      hasNextPage = nextPageResults.length > 0;
+      hasPrevPage = prevPageResults.length > 0;
+    }
+
+    res.status(200).json({
+      data: initialResults,
+      hasPrevPage,
+      hasNextPage
     });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 app.listen(port, () => {

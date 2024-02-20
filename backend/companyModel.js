@@ -51,15 +51,49 @@ const getCompany = async (companyId) => {
   }
 };
 
-const getCompanyOnlineAssessment = async (companyId, cursor, limit) => {
-  console.log('getCompanyOnlineAssessment');
-  const query = 'SELECT * FROM online_assessment WHERE company_id = $1 AND entry_date > $2 ORDER BY assessment_date DESC LIMIT $3';
+const getCompanyOnlineAssessment = async (companyId, cursorDate, cursorId, limit, direction) => {
+  let idCompareOperator;
+  switch (direction) {
+    case 'next':
+      idCompareOperator = '<';
+      break;
+    case 'prev':
+      idCompareOperator = '>';
+      break;
+    default:
+      idCompareOperator = '<=';
+  }
+
+  const dateCompareOperator = direction === 'prev' ? '>=' : '<=';
+  const sortDirection = direction === 'prev' ? 'ASC' : 'DESC';
+  let query;
+  let params;
+  if (cursorId) {
+    query = `
+      SELECT * FROM online_assessment 
+      WHERE company_id = $1 AND (entry_date ${dateCompareOperator} $2 AND assessment_id ${idCompareOperator} $3) 
+      ORDER BY entry_date ${sortDirection}, assessment_id ${sortDirection} 
+      LIMIT $4
+    `;
+    params = [companyId, cursorDate, cursorId, limit];
+  } else {
+    query = `
+      SELECT * FROM online_assessment 
+      WHERE company_id = $1 AND entry_date ${dateCompareOperator} $2 
+      ORDER BY entry_date ${sortDirection}, assessment_id ${sortDirection} 
+      LIMIT $3
+    `;
+    params = [companyId, cursorDate, limit];
+  }
   try {
     return await new Promise((resolve, reject) => {
-      pool.query(query, [companyId, cursor, limit], (error, results) => {
+      pool.query(query, params, (error, results) => {
         if (error) {
           reject(error);
         } else if (results && results.rows) {
+          if (direction === 'prev') {
+            results.rows.reverse();
+          }
           resolve(results.rows);
         } else {
           reject(new Error('No results found'));

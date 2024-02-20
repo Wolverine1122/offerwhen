@@ -1,0 +1,73 @@
+.oa-section {
+  display: grid;
+  padding: 2rem 0;
+
+  & h2 {
+    text-align: center;
+    color: var(--highlight-color);
+  }
+
+  & .oa-table {
+    display: grid;
+    row-gap: 1rem;
+    padding: 1rem 0;
+
+    & .modify {
+      justify-self: end;
+      display: grid;
+      grid-template-columns: repeat(2, max-content);
+      column-gap: 0.5rem;
+    }
+  }
+}
+
+.pagination-controls {
+  display: grid;
+  row-gap: 0.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas: ". jump-controls pagesize-controls";
+  align-items: center;
+
+  .jump-controls {
+    justify-self: center;
+    grid-area: jump-controls;
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    justify-items: center;
+    align-items: center;
+
+    & button {
+      background-color: transparent;
+      border: none;
+      display: grid;
+      align-items: center;
+      justify-items: center;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      & img {
+        filter: invert(100%) sepia(46%) saturate(19%) hue-rotate(187deg)
+          brightness(111%) contrast(95%);
+
+        &:hover {
+          filter: invert(63%) sepia(59%) saturate(6021%) hue-rotate(237deg)
+            brightness(97%) contrast(85%);
+          transition: 0.3s ease-in-out;
+        }
+      }
+    }
+  }
+
+  & .pagesize-controls {
+    justify-self: end;
+    grid-area: pagesize-controls;
+    display: grid;
+  }
+}

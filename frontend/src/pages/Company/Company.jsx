@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import OnlineAssessment from "./OnlineAssessment";
-import { fetchCompany } from "./Api";
+import OnlineAssessment from "./OnlineAssessment/OnlineAssessment";
+import { fetchCompany } from "../../Api";
 import "./company.css";
 
 const Company = () => {
@@ -29,10 +29,17 @@ const Company = () => {
       {isSuccess && (
         <div className="company">
           <div className="basic-info">
-            <h1>{data.name}</h1>
-            <p>{data.url}</p>
-            <p>{data.about}</p>
-            {data.logo && <img src={logoBase64} alt={data.name} />}
+            <div className="logo">
+              {data.logo && <img src={logoBase64} alt={data.name} />}
+            </div>
+            <div className="company-info">
+              <h1>
+                <a href={data.url} target="_blank" rel="noopener noreferrer">
+                  {data.name}
+                </a>
+              </h1>
+              <p>{data.about}</p>
+            </div>
           </div>
           <OnlineAssessment company={id} />
         </div>

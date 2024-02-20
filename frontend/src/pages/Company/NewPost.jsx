@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import propTypes from "prop-types";
 import { useRef } from "react";
-import { createNewOnlineAssessmentData } from "./Api";
+import { createNewOnlineAssessmentData } from "../../Api";
 
 const NewPost = ({ company }) => {
   const dateRef = useRef();

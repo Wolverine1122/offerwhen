@@ -18,6 +18,10 @@ const COLUMNS = [
     disableSortBy: true,
   },
   {
+    Header: "Platform",
+    accessor: "assessment_platform",
+  },
+  {
     Header: "Status",
     accessor: "status",
   },
