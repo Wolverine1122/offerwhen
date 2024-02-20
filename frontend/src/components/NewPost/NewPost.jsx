@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import propTypes from "prop-types";
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { createNewOnlineAssessmentData } from "../../Api";
 import "./new-post.css";
 
@@ -48,11 +48,14 @@ const NewPost = ({ company }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     createNewPostMutation.mutate({
-      date: date,
-      scored: scored,
-      total: total,
-      platform: platform,
-      status: status,
+      company: company,
+      data: {
+        date: date,
+        scored: scored,
+        total: total,
+        platform: platform,
+        status: status,
+      },
     });
   };
 
@@ -171,7 +174,7 @@ const NewPost = ({ company }) => {
         <button
           disabled={createNewPostMutation.isLoading || isSubmitDisabled}
           type="submit"
-          className="regular-button"
+          className="action-button"
         >
           {createNewPostMutation.isLoading ? "Loading..." : "Submit"}
         </button>

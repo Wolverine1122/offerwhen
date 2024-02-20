@@ -52,6 +52,7 @@ const getCompany = async (companyId) => {
 };
 
 const getCompanyOnlineAssessment = async (companyId, cursorDate, cursorId, limit, direction) => {
+  console.log('getCompanyOnlineAssessment');
   let idCompareOperator;
   switch (direction) {
     case 'next':
@@ -106,8 +107,31 @@ const getCompanyOnlineAssessment = async (companyId, cursorDate, cursorId, limit
   }
 };
 
+const createCompanyOnlineAssessment = async (companyId, data) => {
+  console.log('createCompanyOnlineAssessment');
+  const query = 'INSERT INTO online_assessment (company_id, assessment_platform, assessment_date, status, scored, max_score) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
+  const params = [companyId, data.platform, data.date, data.status, data.scored, data.total];
+  try {
+    return await new Promise((resolve, reject) => {
+      pool.query(query, params, (error, results) => {
+        if (error) {
+          reject(error);
+        } else if (results && results.rows && results.rows.length > 0) {
+          resolve(results.rows[0]);
+        } else {
+          reject(new Error('No results found'));
+        }
+      });
+    })
+  } catch (error) {
+    console.error(error.message);
+    throw new Error(`Internal server error for creating online assessment for ${companyId}`);
+  }
+}
+
 module.exports = {
   getCompanies,
   getCompany,
   getCompanyOnlineAssessment,
+  createCompanyOnlineAssessment,
 };

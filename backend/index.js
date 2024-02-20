@@ -65,6 +65,17 @@ app.get('/api/companies/:companyId/oa', async (req, res) => {
   }
 });
 
+app.post('/api/companies/:companyId/oa', async (req, res) => {
+  const { companyId } = req.params;
+  const data = req.body;
+  try {
+    const newAssessment = await company_model.createCompanyOnlineAssessment(companyId, data);
+    res.status(201).json(newAssessment);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
 });
