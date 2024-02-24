@@ -2,9 +2,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import propTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { createNewOnlineAssessmentData } from "../../Api";
+import close from "../../icons/close.svg";
 import "./new-post.css";
 
-const NewPost = ({ company }) => {
+const NewPost = ({ queryInfo, handleShowNewPost, handleQueryDate }) => {
   const [date, setDate] = useState("");
   const [scored, setScored] = useState("");
   const [total, setTotal] = useState("");
@@ -26,11 +27,22 @@ const NewPost = ({ company }) => {
 
   const createNewPostMutation = useMutation({
     mutationFn: createNewOnlineAssessmentData,
-    onSuccess: (data) => {
-      queryClient.setQueryData(["company", company], data);
-      queryClient.invalidateQueries(["company", company], {
-        exact: true,
-      });
+    onSuccess: () => {
+      queryClient.invalidateQueries(
+        [
+          "company",
+          queryInfo.company,
+          queryInfo.queryCursorDate,
+          queryInfo.queryCursorId,
+          queryInfo.queryLimit,
+          queryInfo.direction,
+        ],
+        {
+          exact: true,
+        },
+      );
+      handleShowNewPost(false);
+      handleQueryDate(new Date().toISOString());
     },
   });
 
@@ -48,7 +60,7 @@ const NewPost = ({ company }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     createNewPostMutation.mutate({
-      company: company,
+      company: queryInfo.company,
       data: {
         date: date,
         scored: scored,
@@ -102,9 +114,19 @@ const NewPost = ({ company }) => {
 
   return (
     <div className="new-post">
+      <div className="close-button">
+        <button
+          onClick={() => handleShowNewPost(false)}
+          className="close icon-button"
+        >
+          <img src={close} alt="close button" />
+        </button>
+      </div>
       {createNewPostMutation.isError &&
         JSON.stringify(createNewPostMutation.error)}
-      <h2>New Post</h2>
+      <div className="title">
+        <h2>New Post</h2>
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="input-set">
           <label htmlFor="date">Date you took the OA (MM/dd/YYYY):</label>
@@ -112,7 +134,7 @@ const NewPost = ({ company }) => {
             type="text"
             value={date}
             placeholder="MM/dd/YYYY"
-            pattern="\d{2}/\d{2}/\d{4}"
+            pattern="\d{1,2}/\d{1,2}/\d{4}"
             onChange={handleDateChange}
           />
           {dateErrorMessage && (
@@ -184,7 +206,18 @@ const NewPost = ({ company }) => {
 };
 
 NewPost.propTypes = {
-  company: propTypes.string.isRequired,
+  queryInfo: propTypes.shape({
+    company: propTypes.string.isRequired,
+    queryCursorDate: propTypes.string.isRequired,
+    queryCursorId: propTypes.oneOfType([
+      propTypes.number,
+      propTypes.instanceOf(null),
+    ]),
+    queryLimit: propTypes.number.isRequired,
+    direction: propTypes.string.isRequired,
+  }).isRequired,
+  handleShowNewPost: propTypes.func.isRequired,
+  handleQueryDate: propTypes.func.isRequired,
 };
 
 export default NewPost;

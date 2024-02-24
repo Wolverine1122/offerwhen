@@ -39,6 +39,14 @@ const OnlineAssessment = ({ company }) => {
       ),
   });
 
+  const queryInfo = {
+    company: company,
+    queryCursorDate: queryCursorDate,
+    queryCursorId: queryCursorId,
+    queryLimit: queryLimit,
+    direction: direction,
+  };
+
   const handleRowSelect = (rows) => {
     setSelectedRows(rows);
   };
@@ -112,14 +120,14 @@ const OnlineAssessment = ({ company }) => {
         <div className="jump-controls">
           <button
             onClick={onPrevPage}
-            className="prev"
+            className="prev icon-button"
             disabled={disablePrevButton()}
           >
             <img src={chevronLeft} alt="prev" />
           </button>
           <button
             onClick={onNextPage}
-            className="next"
+            className="next icon-button"
             disabled={disableNextButton()}
           >
             <img src={chevronRight} alt="next" />
@@ -142,7 +150,13 @@ const OnlineAssessment = ({ company }) => {
         </div>
       </div>
       <pre>{JSON.stringify({ selectedRows }, null, 2)}</pre>
-      {showNewPost && <NewPost company={company} />}
+      {showNewPost && (
+        <NewPost
+          queryInfo={queryInfo}
+          handleShowNewPost={setShowNewPost}
+          handleQueryDate={setQueryCursorDate}
+        />
+      )}
     </div>
   );
 };

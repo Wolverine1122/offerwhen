@@ -6,16 +6,34 @@
   background-color: var(--background-color);
   border: 2px solid var(--highlight-color);
   border-radius: 1rem;
-  padding: 3rem;
+  padding: 0 3rem 3rem 3rem;
   z-index: 1000;
   display: grid;
+  grid-template-rows: repeat(3, max-content);
+  grid-template-areas:
+    "close-button"
+    "title"
+    "form";
 
-  & h2 {
-    text-align: center;
-    margin-bottom: 1rem;
+  & .title {
+    grid-area: title;
+
+    & h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+  }
+
+  & .close-button {
+    grid-area: close-button;
+    display: grid;
+    justify-content: end;
+    align-items: center;
+    padding: 1.3rem 0 0.5rem 0;
   }
 
   & form {
+    grid-area: form;
     display: grid;
     grid-template-columns: 1fr;
     row-gap: 1rem;
