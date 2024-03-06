@@ -1,0 +1,49 @@
+.company-card {
+  display: grid;
+  justify-items: center;
+  border: 1px solid var(--primary-color);
+  border-radius: 10px;
+  padding: 0.8rem 0.3rem;
+  transition: border 0.2s ease-in-out;
+
+  &:hover {
+    border: 1px solid var(--highlight-color);
+    cursor: pointer;
+  }
+
+  & .basic-info {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    grid-template-areas: "logo company-info";
+    column-gap: 1rem;
+
+    & .logo {
+      grid-area: logo;
+      display: grid;
+      align-items: center;
+      justify-items: center;
+
+      & img {
+        height: 45px;
+      }
+    }
+
+    & .company-info {
+      grid-area: company-info;
+      display: grid;
+      align-items: center;
+      row-gap: 0.3rem;
+
+      & .company-name-container {
+        & h2 {
+          color: var(--primary-color);
+          transition: color 0.2s ease-in-out;
+        }
+      }
+    }
+  }
+
+  &:hover .company-info h2 {
+    color: var(--highlight-color);
+  }
+}

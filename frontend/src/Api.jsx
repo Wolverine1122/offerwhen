@@ -6,6 +6,16 @@ const fetchCompanies = () => {
     .then((res) => res.data);
 };
 
+const fetchSeasons = () => {
+  return axios.get("http://localhost:3001/api/seasons").then((res) => res.data);
+};
+
+const fetchCompanyTypes = () => {
+  return axios
+    .get("http://localhost:3001/api/companyTypes")
+    .then((res) => res.data);
+};
+
 const fetchCompany = (companyId) => {
   return axios
     .get(`http://localhost:3001/api/companies/${companyId}`)
@@ -37,6 +47,8 @@ const createNewOnlineAssessmentData = (newOAData) => {
 
 export {
   fetchCompanies,
+  fetchSeasons,
+  fetchCompanyTypes,
   fetchCompany,
   fetchOnlineAssessmentData,
   createNewOnlineAssessmentData,

@@ -38,7 +38,7 @@ const Company = () => {
                   {data.name}
                 </a>
               </h1>
-              <p>{data.about}</p>
+              <p className="company-about">{data.about}</p>
             </div>
           </div>
           <OnlineAssessment company={id} />

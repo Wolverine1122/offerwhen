@@ -15,6 +15,24 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.get('/api/seasons', async (req, res) => {
+  try {
+    const seasons = await company_model.getSeasons();
+    res.status(200).json(seasons);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/companyTypes', async (req, res) => {
+  try {
+    const companyTypes = await company_model.getCompanyTypes();
+    res.status(200).json(companyTypes);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.get('/api/companies', async (req, res) => {
   try {
     const companies = await company_model.getCompanies();

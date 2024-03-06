@@ -9,6 +9,49 @@ const pool = new pg.Pool({
   port: process.env.DB_PORT,
 });
 
+const getSeasons = async () => {
+  console.log('getSeasons');
+  const query = 'SELECT * FROM seasons';
+  try {
+    return await new Promise((resolve, reject) => {
+      pool.query(query, (error, results) => {
+        if (error) {
+          reject(error);
+        } else if (results && results.rows && results.rows.length > 0) {
+          resolve(results.rows);
+        } else {
+          reject(new Error('No results found'));
+        }
+      });
+    })
+  } catch (error) {
+    console.error(error.message);
+    throw new Error('Internal server error for retrieving seasons');
+  }
+};
+
+const getCompanyTypes = async () => {
+  console.log('getCompanyTypes');
+  const query = 'SELECT * FROM company_types';
+  try {
+    return await new Promise((resolve, reject) => {
+      pool.query(query, (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        else if (results && results.rows && results.rows.length > 0) {
+          resolve(results.rows);
+        } else {
+          reject(new Error('No results found'));
+        }
+      });
+    })
+  } catch (error) {
+    console.error(error.message);
+    throw new Error('Internal server error for retrieving company types');
+  }
+};
+
 const getCompanies = async () => {
   console.log('getCompanies');
   const query = 'SELECT * FROM company';
@@ -130,6 +173,8 @@ const createCompanyOnlineAssessment = async (companyId, data) => {
 }
 
 module.exports = {
+  getSeasons,
+  getCompanyTypes,
   getCompanies,
   getCompany,
   getCompanyOnlineAssessment,
