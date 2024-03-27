@@ -119,46 +119,63 @@ const Companies = () => {
     <div className="companies">
       <div className="basic-info-filter">
         <h1>Companies</h1>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={searchParams.get("search")}
-            placeholder="Search"
-            onChange={(e) =>
-              setSearchParams({ ...searchParams, search: e.target.value })
-            }
-          />
-          <select
-            value={searchParams.get("season")}
-            onChange={(e) =>
-              setSearchParams({ ...searchParams, season: e.target.value })
-            }
-          >
-            {seasons.map((season) => (
-              <option key={season.id} value={season.name}>
-                {season.name}
-              </option>
-            ))}
-          </select>
-          <select
-            value={searchParams.get("companyType")}
-            onChange={(e) =>
-              setSearchParams({ ...searchParams, companyType: e.target.value })
-            }
-          >
-            {companyTypes.map((companyType) => (
-              <option key={companyType.id} value={companyType.name}>
-                {companyType.name}
-              </option>
-            ))}
-          </select>
-          <button type="submit">Search</button>
+        <form onSubmit={handleSubmit} className="companies-filter">
+          <div className="form-wrapper">
+            <div>
+              <input
+                type="text"
+                value={searchParams.get("search")}
+                placeholder="Search"
+                onChange={(e) =>
+                  setSearchParams({ ...searchParams, search: e.target.value })
+                }
+              />
+            </div>
+            <div className="custom-select">
+              <select
+                value={searchParams.get("season")}
+                className="regular-select"
+                onChange={(e) =>
+                  setSearchParams({ ...searchParams, season: e.target.value })
+                }
+              >
+                {seasons.map((season) => (
+                  <option key={season.id} value={season.name}>
+                    {season.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="custom-select">
+              <select
+                value={searchParams.get("companyType")}
+                className="regular-select"
+                onChange={(e) =>
+                  setSearchParams({
+                    ...searchParams,
+                    companyType: e.target.value,
+                  })
+                }
+              >
+                {companyTypes.map((companyType) => (
+                  <option key={companyType.id} value={companyType.name}>
+                    {companyType.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <button type="submit" className="regular-button">
+                Search
+              </button>
+            </div>
+          </div>
         </form>
         <button
           className="icon-wrapper-button"
           onClick={() => setShowInfo(true)}
         >
-          What do these cards mean?
+          What are these cards?
           <img src={info} alt="info" />
         </button>
       </div>
