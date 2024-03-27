@@ -34,9 +34,31 @@ app.get('/api/companyTypes', async (req, res) => {
 });
 
 app.get('/api/companies', async (req, res) => {
+  const { cursorId, entriesId, limit, direction } = req.query;
+  const safeCursorId = cursorId === 'null' ? null : cursorId;
+  const safeEntriesId = entriesId === 'null' ? null : entriesId;
   try {
-    const companies = await company_model.getCompanies();
-    res.status(200).json(companies);
+    const initialResults = await company_model.getCompanies(safeCursorId, safeEntriesId, limit, direction);
+    let hasNextPage = false;
+    let hasPrevPage = false;
+
+    if (initialResults.length > 0) {
+      const nextPageCompanyCursorId = initialResults[initialResults.length - 1].company_id;
+      const nextPageEntriesCursorId = initialResults[initialResults.length - 1].entries;
+      const nextPageResults = await company_model.getCompanies(nextPageCompanyCursorId, nextPageEntriesCursorId, 1, "next");
+
+      const prevPageCompanyCursorId = initialResults[0].company_id;
+      const prevPageEntriesCursorId = initialResults[0].entries;
+      const prevPageResults = await company_model.getCompanies(prevPageCompanyCursorId, prevPageEntriesCursorId, 1, "prev");
+      hasNextPage = nextPageResults.length > 0;
+      hasPrevPage = prevPageResults.length > 0;
+    }
+
+    res.status(200).json({
+      data: initialResults,
+      hasPrevPage,
+      hasNextPage
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

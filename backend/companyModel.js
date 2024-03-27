@@ -52,15 +52,48 @@ const getCompanyTypes = async () => {
   }
 };
 
-const getCompanies = async () => {
+const getCompanies = async (safeCursorCompanyId, safeEntriesId, limit, direction) => {
   console.log('getCompanies');
-  const query = 'SELECT * FROM company';
+  let idCompareOperator;
+  switch (direction) {
+    case 'next':
+      idCompareOperator = '<';
+      break;
+    case 'prev':
+      idCompareOperator = '>';
+      break;
+    default:
+      idCompareOperator = '<=';
+  }
+  const sortDirection = direction === 'prev' ? 'ASC' : 'DESC';
+  let query;
+  let params;
+  if (safeCursorCompanyId && safeEntriesId) {
+    query = `
+      SELECT * FROM company 
+      WHERE (entries, company_id) ${idCompareOperator} ($1, $2) 
+      ORDER BY entries ${sortDirection}, company_id ${sortDirection} 
+      LIMIT $3;
+    `;
+    params = [safeEntriesId, safeCursorCompanyId, limit];
+  } else if (!safeCursorCompanyId && !safeEntriesId) {
+    query = `
+      SELECT * FROM company 
+      ORDER BY entries ${sortDirection}, company_id ${sortDirection} 
+      LIMIT $1;
+    `;
+    params = [limit];
+  }
+
   try {
     return await new Promise((resolve, reject) => {
-      pool.query(query, (error, results) => {
+      pool.query(query, params, (error, results) => {
         if (error) {
           reject(error);
         } else if (results && results.rows) {
+          if (direction === 'prev') {
+            results.rows.reverse();
+          }
           resolve(results.rows);
         } else {
           reject(new Error('No results found'));
@@ -107,7 +140,6 @@ const getCompanyOnlineAssessment = async (companyId, cursorDate, cursorId, limit
     default:
       idCompareOperator = '<=';
   }
-
   const dateCompareOperator = direction === 'prev' ? '>=' : '<=';
   const sortDirection = direction === 'prev' ? 'ASC' : 'DESC';
   let query;
@@ -129,6 +161,7 @@ const getCompanyOnlineAssessment = async (companyId, cursorDate, cursorId, limit
     `;
     params = [companyId, cursorDate, limit];
   }
+
   try {
     return await new Promise((resolve, reject) => {
       pool.query(query, params, (error, results) => {

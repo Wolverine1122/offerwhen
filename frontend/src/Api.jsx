@@ -1,8 +1,17 @@
 import axios from "axios";
 
-const fetchCompanies = () => {
+const fetchCompanies = (
+  searchParams,
+  cursorId,
+  entriesId,
+  limit,
+  direction,
+) => {
   return axios
-    .get("http://localhost:3001/api/companies")
+    .get(
+      `http://localhost:3001/api/companies?cursorId=${cursorId}&entriesId=${entriesId}&limit=${limit}&direction=${direction}`,
+      searchParams,
+    )
     .then((res) => res.data);
 };
 
