@@ -21,11 +21,15 @@ const Companies = () => {
   const [queryEntriesId, setQueryEntriesId] = useState(null);
   const [queryLimit, setQueryLimit] = useState(5);
   const [direction, setDirection] = useState("next");
-
+  const [searchParamsForQuery, setSearchParamsForQuery] = useState({
+    search: "",
+    season: "All",
+    companyType: "All",
+  });
   const [searchParams, setSearchParams] = useSearchParams({
     search: "",
     season: "All",
-    companyType: "General",
+    companyType: "All",
   });
 
   const { isLoading, isError, data, isSuccess } = useQuery({
@@ -35,12 +39,12 @@ const Companies = () => {
       queryEntriesId,
       queryLimit,
       direction,
-      searchParams,
+      searchParamsForQuery,
     ],
     keepPreviousData: true,
     queryFn: () =>
       fetchCompanies(
-        searchParams,
+        searchParamsForQuery,
         queryCursorId,
         queryEntriesId,
         queryLimit,
@@ -72,6 +76,11 @@ const Companies = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setSearchParamsForQuery({
+      search: searchParams.get("search"),
+      season: searchParams.get("season"),
+      companyType: searchParams.get("companyType"),
+    });
   };
 
   const onNextPage = () => {
@@ -126,18 +135,26 @@ const Companies = () => {
                 type="text"
                 value={searchParams.get("search")}
                 placeholder="Search"
-                onChange={(e) =>
-                  setSearchParams({ ...searchParams, search: e.target.value })
-                }
+                onChange={(e) => {
+                  const newSearchParams = new URLSearchParams(
+                    searchParams.toString(),
+                  );
+                  newSearchParams.set("search", e.target.value);
+                  setSearchParams(newSearchParams);
+                }}
               />
             </div>
             <div className="custom-select">
               <select
                 value={searchParams.get("season")}
                 className="regular-select"
-                onChange={(e) =>
-                  setSearchParams({ ...searchParams, season: e.target.value })
-                }
+                onChange={(e) => {
+                  const newSearchParams = new URLSearchParams(
+                    searchParams.toString(),
+                  );
+                  newSearchParams.set("season", e.target.value);
+                  setSearchParams(newSearchParams);
+                }}
               >
                 {seasons.map((season) => (
                   <option key={season.id} value={season.name}>
@@ -150,12 +167,13 @@ const Companies = () => {
               <select
                 value={searchParams.get("companyType")}
                 className="regular-select"
-                onChange={(e) =>
-                  setSearchParams({
-                    ...searchParams,
-                    companyType: e.target.value,
-                  })
-                }
+                onChange={(e) => {
+                  const newSearchParams = new URLSearchParams(
+                    searchParams.toString(),
+                  );
+                  newSearchParams.set("companyType", e.target.value);
+                  setSearchParams(newSearchParams);
+                }}
               >
                 {companyTypes.map((companyType) => (
                   <option key={companyType.id} value={companyType.name}>

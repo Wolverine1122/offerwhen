@@ -52,8 +52,27 @@ const getCompanyTypes = async () => {
   }
 };
 
-const getCompanies = async (safeCursorCompanyId, safeEntriesId, limit, direction) => {
+const getCompanies = async (safeCursorCompanyId, safeEntriesId, limit, direction, searchParams) => {
   console.log('getCompanies');
+
+  const seasons = await getSeasons();
+  const companyTypes = await getCompanyTypes();
+  let [search, season, companyType] = [null, null, null];
+  if (searchParams && searchParams.search) {
+    search = searchParams.search;
+  }
+  if (searchParams && searchParams.season && searchParams.season !== "All" && seasons) {
+    const seasonMatch = seasons.find(season => season.name === searchParams.season);
+    if (seasonMatch) {
+      season = seasonMatch.id;
+    }
+  }
+  if (searchParams && searchParams.companyType && searchParams.companyType !== "All" && companyTypes) {
+    const companyTypeMatch = companyTypes.find(companyType => companyType.name === searchParams.companyType);
+    if (companyTypeMatch) {
+      companyType = companyTypeMatch.id;
+    }
+  }
   let idCompareOperator;
   switch (direction) {
     case 'next':
@@ -66,24 +85,28 @@ const getCompanies = async (safeCursorCompanyId, safeEntriesId, limit, direction
       idCompareOperator = '<=';
   }
   const sortDirection = direction === 'prev' ? 'ASC' : 'DESC';
-  let query;
-  let params;
+
+  let query = "SELECT * FROM company WHERE 1=1";
+  let params = [];
   if (safeCursorCompanyId && safeEntriesId) {
-    query = `
-      SELECT * FROM company 
-      WHERE (entries, company_id) ${idCompareOperator} ($1, $2) 
-      ORDER BY entries ${sortDirection}, company_id ${sortDirection} 
-      LIMIT $3;
-    `;
-    params = [safeEntriesId, safeCursorCompanyId, limit];
-  } else if (!safeCursorCompanyId && !safeEntriesId) {
-    query = `
-      SELECT * FROM company 
-      ORDER BY entries ${sortDirection}, company_id ${sortDirection} 
-      LIMIT $1;
-    `;
-    params = [limit];
+    query += ` AND (entries, company_id) ${idCompareOperator} ($1, $2)`;
+    params.push(safeEntriesId, safeCursorCompanyId);
   }
+  if (search) {
+    query += ` AND name ILIKE $${params.length + 1}`;
+    params.push(`%${search}%`);
+  }
+  if (companyType) {
+    query += ` AND company_type_id = $${params.length + 1}`;
+    params.push(companyType);
+  }
+  if (season) {
+    query += ` AND $${params.length + 1} = ANY(seasons)`;
+    params.push(season);
+  }
+  query += ` ORDER BY entries ${sortDirection}, company_id ${sortDirection} 
+  LIMIT $${params.length + 1};`;
+  params.push(limit);
 
   try {
     return await new Promise((resolve, reject) => {

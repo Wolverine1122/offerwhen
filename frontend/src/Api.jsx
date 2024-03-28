@@ -1,16 +1,16 @@
 import axios from "axios";
 
 const fetchCompanies = (
-  searchParams,
+  searchParamsForQuery,
   cursorId,
   entriesId,
   limit,
   direction,
 ) => {
+  const searchParams = new URLSearchParams(searchParamsForQuery).toString();
   return axios
     .get(
-      `http://localhost:3001/api/companies?cursorId=${cursorId}&entriesId=${entriesId}&limit=${limit}&direction=${direction}`,
-      searchParams,
+      `http://localhost:3001/api/companies?cursorId=${cursorId}&entriesId=${entriesId}&limit=${limit}&direction=${direction}&${searchParams}`,
     )
     .then((res) => res.data);
 };
