@@ -19,7 +19,7 @@ const Companies = () => {
   const [showNewCompany, setShowNewCompany] = useState(false);
   const [queryCursorId, setQueryCursorId] = useState(null);
   const [queryEntriesId, setQueryEntriesId] = useState(null);
-  const [queryLimit, setQueryLimit] = useState(5);
+  const [queryLimit, setQueryLimit] = useState(10);
   const [direction, setDirection] = useState("next");
   const [searchParamsForQuery, setSearchParamsForQuery] = useState({
     search: "",
@@ -245,7 +245,7 @@ const Companies = () => {
               value={queryLimit}
               onChange={(e) => handleQueryLimit(Number(e.target.value))}
             >
-              {[5, 10, 25, 50].map((queryLimit) => (
+              {[10, 25, 50].map((queryLimit) => (
                 <option key={queryLimit} value={queryLimit}>
                   Show {queryLimit}
                 </option>

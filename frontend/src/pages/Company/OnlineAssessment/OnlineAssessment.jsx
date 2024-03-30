@@ -15,7 +15,7 @@ const OnlineAssessment = ({ company }) => {
     new Date().toISOString(),
   );
   const [queryCursorId, setQueryCursorId] = useState(null);
-  const [queryLimit, setQueryLimit] = useState(5);
+  const [queryLimit, setQueryLimit] = useState(10);
   const [direction, setDirection] = useState("next");
   const [showNewPost, setShowNewPost] = useState(false);
 
@@ -140,7 +140,7 @@ const OnlineAssessment = ({ company }) => {
               value={queryLimit}
               onChange={(e) => handleQueryLimit(Number(e.target.value))}
             >
-              {[5, 10, 25, 50].map((queryLimit) => (
+              {[10, 25, 50].map((queryLimit) => (
                 <option key={queryLimit} value={queryLimit}>
                   Show {queryLimit}
                 </option>

@@ -1,0 +1,10 @@
+.discord-bot {
+  display: grid;
+  margin: 1rem 0;
+  row-gap: 1rem;
+
+  & h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+}
