@@ -116,6 +116,16 @@ app.post('/api/companies/:companyId/oa', async (req, res) => {
   }
 });
 
+app.post('/api/companies', async (req, res) => {
+  const data = req.body;
+  try {
+    const newCompany = await company_model.createCompany(data.companyName, data.userEmail);
+    res.status(201).json(newCompany);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
 });

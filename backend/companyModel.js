@@ -228,6 +228,31 @@ const createCompanyOnlineAssessment = async (companyId, data) => {
   }
 }
 
+const createCompany = async (companyName, userEmail) => {
+  console.log('createCompany');
+  const query = 'INSERT INTO requested_companies (company_name, user_email) VALUES ($1, $2) RETURNING *';
+  const params = [companyName, userEmail];
+  try {
+    return await new Promise((resolve, reject) => {
+      pool.query(query, params, (error, results) => {
+        if (error) {
+          reject(error);
+        } else if (results && results.rows && results.rows.length > 0) {
+          resolve(results.rows[0]);
+        } else {
+          reject(new Error('No results found'));
+        }
+      });
+    }
+    )
+  }
+  catch (error) {
+    console.error(error.message);
+    throw new Error('Internal server error for creating company');
+  }
+}
+
+
 module.exports = {
   getSeasons,
   getCompanyTypes,
@@ -235,4 +260,5 @@ module.exports = {
   getCompany,
   getCompanyOnlineAssessment,
   createCompanyOnlineAssessment,
+  createCompany,
 };

@@ -54,6 +54,12 @@ const createNewOnlineAssessmentData = (newOAData) => {
     .then((res) => res.data);
 };
 
+const createNewCompany = (newCompany) => {
+  return axios
+    .post("http://localhost:3001/api/companies", newCompany)
+    .then((res) => res.data);
+};
+
 export {
   fetchCompanies,
   fetchSeasons,
@@ -61,4 +67,5 @@ export {
   fetchCompany,
   fetchOnlineAssessmentData,
   createNewOnlineAssessmentData,
+  createNewCompany,
 };
