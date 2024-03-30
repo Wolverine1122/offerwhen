@@ -1,0 +1,11 @@
+.card-info-popup {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 1rem;
+
+  & hr {
+    width: 100%;
+    border-color: var(--highlight-color);
+    border-style: dashed;
+  }
+}

@@ -197,7 +197,7 @@ const Companies = () => {
           <img src={info} alt="info" />
         </button>
       </div>
-      {showInfo && <InfoPopUp />}
+      {showInfo && <InfoPopUp handleShowInfo={setShowInfo} />}
       {isLoading && <div>Loading...</div>}
       {isError && <div>Companies not found</div>}
       {isSuccess && (

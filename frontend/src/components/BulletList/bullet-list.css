@@ -1,0 +1,19 @@
+.bullet-list-with-images {
+  display: grid;
+  justify-items: start;
+  row-gap: 5px;
+
+  & .bullet-with-images {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    justify-items: center;
+    align-items: center;
+    column-gap: 10px;
+
+    & img {
+      width: 20px;
+      filter: invert(63%) sepia(59%) saturate(6021%) hue-rotate(237deg)
+        brightness(97%) contrast(85%);
+    }
+  }
+}
