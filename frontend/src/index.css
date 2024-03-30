@@ -6,6 +6,9 @@
   --highlight-color: #a667e4;
   --dark-highlight-color: #aa4ece;
   --error-color: #ff4d4d;
+  --dot-color: #848282;
+  --dot-size: 1px;
+  --dot-space: 30px;
 }
 
 body {
@@ -16,6 +19,19 @@ body {
   font-style: normal;
   font-size: 1rem;
   padding: 15px 25px;
+  background:
+    linear-gradient(
+        90deg,
+        var(--background-color) calc(var(--dot-space) - var(--dot-size)),
+        transparent 1%
+      )
+      center / var(--dot-space) var(--dot-space),
+    linear-gradient(
+        var(--background-color) calc(var(--dot-space) - var(--dot-size)),
+        transparent 1%
+      )
+      center / var(--dot-space) var(--dot-space),
+    var(--dot-color);
 }
 
 h1 {
