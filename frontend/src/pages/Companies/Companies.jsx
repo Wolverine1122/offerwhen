@@ -189,26 +189,30 @@ const Companies = () => {
             </div>
           </div>
         </form>
-        <button
-          className="icon-wrapper-button"
-          onClick={() => setShowInfo(true)}
-        >
-          What are these cards?
-          <img src={info} alt="info" />
-        </button>
       </div>
       {showInfo && <InfoPopUp handleShowInfo={setShowInfo} />}
       {isLoading && <div>Loading...</div>}
       {isError && <div>Companies not found</div>}
       {isSuccess && (
         <div className="company-cards-grid-wrapper">
-          <div className="modify">
-            <button
-              className="add-button regular-button"
-              onClick={() => setShowNewCompany(true)}
-            >
-              Add Company
-            </button>
+          <div className="helper-buttons">
+            <div className="modify">
+              <button
+                className="add-button regular-button"
+                onClick={() => setShowNewCompany(true)}
+              >
+                Add Company
+              </button>
+            </div>
+            <div className="info-popup-button">
+              <button
+                className="icon-wrapper-button"
+                onClick={() => setShowInfo(true)}
+              >
+                What are these cards?
+                <img src={info} alt="info" />
+              </button>
+            </div>
           </div>
           <div className="company-cards-grid">
             {data.data.map((company) => (

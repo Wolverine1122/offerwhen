@@ -38,7 +38,7 @@ const NewCompany = ({ handleShowNewCompany }) => {
   };
 
   return (
-    <div className="new-post">
+    <div className="new-post new-company">
       <div className="close-button">
         <button
           onClick={() => handleShowNewCompany(false)}

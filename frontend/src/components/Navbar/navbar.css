@@ -5,6 +5,11 @@
   grid-template-areas: "logo . menu-icon";
 }
 
+.menu,
+.menu-icon {
+  z-index: 1000;
+}
+
 .menu-icon {
   grid-area: menu-icon;
   display: grid;

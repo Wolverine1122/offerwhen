@@ -4,7 +4,7 @@
     "basic-info-filter"
     "company-cards-grid"
     "pagination-controls";
-  row-gap: 2rem;
+  row-gap: 1rem;
   padding: 1rem 0;
 
   & .basic-info-filter {
@@ -50,6 +50,24 @@
 
   & .company-cards-grid-wrapper {
     grid-area: company-cards-grid;
+    display: grid;
+
+    & .helper-buttons {
+      display: grid;
+      align-items: center;
+      margin-bottom: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      justify-items: center;
+      row-gap: 0.5rem;
+
+      & .modify {
+        display: grid;
+      }
+
+      & .info-popup-button {
+        display: grid;
+      }
+    }
 
     & .company-cards-grid {
       display: grid;
@@ -60,6 +78,25 @@
 
   & .pagination-controls {
     grid-area: pagination-controls;
+  }
+}
+
+/* desktop */
+@media screen and (min-width: 1024px) {
+  .companies .company-cards-grid-wrapper .helper-buttons {
+    grid-template-areas: ". info-popup-button modify";
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: normal;
+
+    & .modify {
+      grid-area: modify;
+      justify-content: end;
+    }
+
+    & .info-popup-button {
+      grid-area: info-popup-button;
+      justify-content: center;
+    }
   }
 }
 
