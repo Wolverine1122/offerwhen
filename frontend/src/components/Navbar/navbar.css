@@ -33,7 +33,7 @@
 
 .menu {
   display: grid;
-  grid-template-rows: repeat(4, auto);
+  grid-template-rows: repeat(3, auto);
   position: absolute;
   top: 60px;
   right: 25px;

@@ -160,11 +160,12 @@ const NewPost = ({ queryInfo, handleShowNewPost, handleQueryDate }) => {
           />
         </div>
         <div className="input-set">
-          <label>Platform:</label>
+          <label htmlFor="platform-select">Platform:</label>
           <div className="custom-select">
             <select
               className="regular-select"
               value={platform}
+              id="platform-select"
               onChange={(e) => setPlatform(e.target.value)}
             >
               <option value="">Select platform</option>
@@ -177,11 +178,12 @@ const NewPost = ({ queryInfo, handleShowNewPost, handleQueryDate }) => {
           </div>
         </div>
         <div className="input-set">
-          <label>Status:</label>
+          <label htmlFor="status-select">Status:</label>
           <div className="custom-select">
             <select
               className="regular-select"
               value={status}
+              id="status-select"
               onChange={(e) => setStatus(e.target.value)}
             >
               <option value="">Select status</option>

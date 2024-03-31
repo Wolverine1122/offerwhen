@@ -35,6 +35,11 @@
     grid-template-columns: repeat(2, max-content);
     justify-items: center;
     align-items: center;
+
+    & img {
+      height: 30px;
+      width: 30px;
+    }
   }
 
   & .pagesize-controls {

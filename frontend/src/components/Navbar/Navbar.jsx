@@ -36,11 +36,8 @@ const Navbar = () => {
         <div className="bar"></div>
       </div>
       <div className="menu" style={{ display: menuOpen ? "grid" : "none" }}>
-        <Link to="/" onClick={toggleMenu}>
-          Home
-        </Link>
         <Link to="/companies" onClick={toggleMenu}>
-          Companies
+          Home
         </Link>
         <Link to="/about" onClick={toggleMenu}>
           About
