@@ -8,6 +8,7 @@ import COLUMNS from "../columns";
 import chevronLeft from "../../../icons/chevron-left.svg";
 import chevronRight from "../../../icons/chevron-right.svg";
 import "./online-assessment.css";
+import NewScoreReport from "../../../components/NewScoreReport/NewScoreReport";
 
 const OnlineAssessment = ({ company }) => {
   const [selectedRows, setSelectedRows] = useState(new Set());
@@ -18,6 +19,7 @@ const OnlineAssessment = ({ company }) => {
   const [queryLimit, setQueryLimit] = useState(10);
   const [direction, setDirection] = useState("next");
   const [showNewPost, setShowNewPost] = useState(false);
+  const [showReport, setShowReport] = useState(false);
 
   const { isLoading, isError, data, isSuccess } = useQuery({
     queryKey: [
@@ -106,7 +108,12 @@ const OnlineAssessment = ({ company }) => {
             >
               Add
             </button>
-            <button className="report-button regular-button">Report</button>
+            <button
+              className="report-button regular-button"
+              onClick={() => setShowReport(true)}
+            >
+              Report
+            </button>
           </div>
           <BasicTable
             column_struct={COLUMNS}
@@ -149,12 +156,17 @@ const OnlineAssessment = ({ company }) => {
           </div>
         </div>
       </div>
-      <pre>{JSON.stringify({ selectedRows }, null, 2)}</pre>
       {showNewPost && (
         <NewPost
           queryInfo={queryInfo}
           handleShowNewPost={setShowNewPost}
           handleQueryDate={setQueryCursorDate}
+        />
+      )}
+      {showReport && (
+        <NewScoreReport
+          handleShowNewScoreReport={setShowReport}
+          selectedScores={selectedRows}
         />
       )}
     </div>

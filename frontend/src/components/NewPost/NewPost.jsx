@@ -44,6 +44,9 @@ const NewPost = ({ queryInfo, handleShowNewPost, handleQueryDate }) => {
       handleShowNewPost(false);
       handleQueryDate(new Date().toISOString());
     },
+    onError: () => {
+      setIsSubmitDisabled(true);
+    },
   });
 
   useEffect(() => {
@@ -195,6 +198,11 @@ const NewPost = ({ queryInfo, handleShowNewPost, handleQueryDate }) => {
             </select>
           </div>
         </div>
+        {createNewPostMutation.isError && (
+          <div className="error-message">
+            {createNewPostMutation.error.message}
+          </div>
+        )}
         <button
           disabled={createNewPostMutation.isLoading || isSubmitDisabled}
           type="submit"

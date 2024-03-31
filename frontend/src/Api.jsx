@@ -60,6 +60,12 @@ const createNewCompany = (newCompany) => {
     .then((res) => res.data);
 };
 
+const createNewScoreReport = (newScoreReport) => {
+  return axios
+    .post("http://localhost:3001/api/scoreReports", newScoreReport)
+    .then((res) => res.data);
+};
+
 export {
   fetchCompanies,
   fetchSeasons,
@@ -68,4 +74,5 @@ export {
   fetchOnlineAssessmentData,
   createNewOnlineAssessmentData,
   createNewCompany,
+  createNewScoreReport,
 };

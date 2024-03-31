@@ -126,6 +126,16 @@ app.post('/api/companies', async (req, res) => {
   }
 });
 
+app.post('/api/scoreReports', async (req, res) => {
+  const data = req.body;
+  try {
+    const newScoreReport = await company_model.createScoreReport(data.explanation, data.selectedScores);
+    res.status(201).json(newScoreReport);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
 });

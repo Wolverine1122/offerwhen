@@ -1,0 +1,30 @@
+.new-score-report {
+  & form {
+    & .show-selected-scores .display-selected-scores-wrapper {
+      display: grid;
+      row-gap: 1rem;
+
+      & .selected-scores {
+        color: var(--highlight-color);
+        font-weight: bold;
+      }
+    }
+
+    & .explanation-wrapper {
+      margin-top: 2rem;
+      display: grid;
+      row-gap: 1rem;
+
+      & textarea {
+        padding: 0.5rem;
+        border: 1px solid var(--highlight-color);
+        border-radius: 10px;
+        resize: none;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 1rem;
+        outline: none;
+      }
+    }
+  }
+}

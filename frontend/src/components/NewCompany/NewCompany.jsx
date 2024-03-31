@@ -17,6 +17,9 @@ const NewCompany = ({ handleShowNewCompany }) => {
       setCompanyName("");
       setUserEmail("");
     },
+    onError: () => {
+      setIsSubmitDisabled(true);
+    },
   });
 
   const handleCompanyName = (e) => {
@@ -67,6 +70,11 @@ const NewCompany = ({ handleShowNewCompany }) => {
           />
         </div>
         <p>We can email you when the company is added</p>
+        {createNewCompanyMutation.isError && (
+          <div className="error-message">
+            {createNewCompanyMutation.error.message}
+          </div>
+        )}
         <button
           type="submit"
           className="action-button"

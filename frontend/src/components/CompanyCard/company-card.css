@@ -16,7 +16,7 @@
     display: grid;
     grid-template-columns: repeat(2, max-content);
     grid-template-areas: "logo company-info";
-    column-gap: 1rem;
+    column-gap: 2rem;
 
     & .logo {
       grid-area: logo;

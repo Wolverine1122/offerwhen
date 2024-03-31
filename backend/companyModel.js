@@ -252,6 +252,33 @@ const createCompany = async (companyName, userEmail) => {
   }
 }
 
+const createScoreReport = async (explanation, selectedScores) => {
+  console.log('createScoreReport');
+  const query = 'INSERT INTO score_reports (selected_scores, explanation) VALUES ($1, $2) RETURNING *';
+  const params = [selectedScores, explanation];
+  if (explanation.length > 5000) {
+    throw new Error('Explanation is too long');
+  }
+  try {
+    return await new Promise((resolve, reject) => {
+      pool.query(query, params, (error, results) => {
+        if (error) {
+          reject(error);
+        } else if (results && results.rows && results.rows.length > 0) {
+          resolve(results.rows[0]);
+        } else {
+          reject(new Error('No results found'));
+        }
+      });
+    }
+    )
+  }
+  catch (error) {
+    console.error(error.message);
+    throw new Error('Internal server error for creating score report');
+  }
+}
+
 
 module.exports = {
   getSeasons,
@@ -261,4 +288,5 @@ module.exports = {
   getCompanyOnlineAssessment,
   createCompanyOnlineAssessment,
   createCompany,
+  createScoreReport
 };
