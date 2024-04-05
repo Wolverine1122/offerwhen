@@ -264,7 +264,7 @@ const getScorePosition = async (company, selectedSeason, selectedPlatform, score
     allScores.push(scored);
     allScores.sort((a, b) => a - b);
     const newPosition = allScores.findLastIndex(score => score === scored) + 1;
-    const percentileRank = ((newPosition - 1) / allScores.length) * 100;
+    const percentileRank = (newPosition / allScores.length) * 100;
     return Math.round(percentileRank);
   }
   catch (error) {

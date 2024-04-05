@@ -99,8 +99,8 @@ const ScorePosition = ({ company, selectedSeason, seasons }) => {
       </form>
       {isSuccess && typeof data !== "string" && (
         <div className="score-position-info">
-          You are in the top {data}% of all {selectedPlatform} submissions in
-          the {getSeasonNameFromId(selectedSeason)} season.
+          You are in the top {data}% of all accepted {selectedPlatform}{" "}
+          submissions in the {getSeasonNameFromId(selectedSeason)} season.
         </div>
       )}
       {isSuccess && typeof data === "string" && (
