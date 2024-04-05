@@ -230,6 +230,43 @@ const getCompanyOnlineAssessment = async (companyId, cursorDate, cursorId, limit
   }
 };
 
+const getScorePosition = async (company, selectedSeason, selectedPlatform, scored, total) => {
+  console.log('getScorePosition');
+  internal_company_id = await getCompanyIdFromName(company);
+  accept_status = 'accepted';
+  let query = `
+    SELECT scored
+    FROM online_assessment 
+    WHERE company_id = $1 
+      AND assessment_platform = $2
+      AND max_score = $3
+      AND status = $4
+  `;
+  let params = [internal_company_id, selectedPlatform, total, accept_status];
+  if (selectedSeason !== 7) {
+    query += ` AND season_id = $${params.length + 1}`;
+    params.push(selectedSeason);
+  }
+  query += ` ORDER BY scored DESC;`;
+
+  try {
+    const { rows } = await pool.query(query, params);
+    if (!rows || rows.length === 0) {
+      return 'No results found';
+    }
+    const allScores = rows.map(row => row.scored);
+    allScores.push(scored);
+    allScores.sort((a, b) => a - b);
+    const newPosition = allScores.findLastIndex(score => score === scored) + 1;
+    const percentileRank = ((newPosition - 1) / allScores.length) * 100;
+    return Math.round(percentileRank);
+  }
+  catch (error) {
+    console.error(error.message);
+    throw new Error(error.message);
+  }
+}
+
 const createCompanyOnlineAssessment = async (companyId, data) => {
   console.log('createCompanyOnlineAssessment');
   internal_company_id = await getCompanyIdFromName(companyId);
@@ -312,6 +349,7 @@ module.exports = {
   getCompany,
   getCompanyOnlineAssessment,
   createCompanyOnlineAssessment,
+  getScorePosition,
   createCompany,
   createScoreReport
 };

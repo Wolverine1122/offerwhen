@@ -9,6 +9,7 @@ import chevronLeft from "../../../icons/chevron-left.svg";
 import chevronRight from "../../../icons/chevron-right.svg";
 import "./online-assessment.css";
 import NewScoreReport from "../../../components/NewScoreReport/NewScoreReport";
+import ScorePosition from "../../../components/ScorePosition/ScorePosition";
 
 const OnlineAssessment = ({ company, seasons, selectedSeason }) => {
   const [selectedRows, setSelectedRows] = useState(new Set());
@@ -109,28 +110,35 @@ const OnlineAssessment = ({ company, seasons, selectedSeason }) => {
       {isLoading && <div>Loading...</div>}
       {isError && <div>Error fetching data</div>}
       {isSuccess && (
-        <div className="oa-table">
-          <div className="modify">
-            <button
-              className="add-button regular-button"
-              onClick={() => setShowNewPost(true)}
-            >
-              Add
-            </button>
-            <button
-              className="report-button regular-button"
-              onClick={() => setShowReport(true)}
-            >
-              Report
-            </button>
-          </div>
-          <BasicTable
-            column_struct={COLUMNS}
-            company_data={tableData}
-            onSelectedRows={handleRowSelect}
-            manualPagination={true}
+        <>
+          <ScorePosition
+            company={company}
+            selectedSeason={selectedSeason}
+            seasons={seasons}
           />
-        </div>
+          <div className="oa-table">
+            <div className="modify">
+              <button
+                className="add-button regular-button"
+                onClick={() => setShowNewPost(true)}
+              >
+                Add
+              </button>
+              <button
+                className="report-button regular-button"
+                onClick={() => setShowReport(true)}
+              >
+                Report
+              </button>
+            </div>
+            <BasicTable
+              column_struct={COLUMNS}
+              company_data={tableData}
+              onSelectedRows={handleRowSelect}
+              manualPagination={true}
+            />
+          </div>
+        </>
       )}
       <div className="pagination-controls">
         <div className="jump-controls">

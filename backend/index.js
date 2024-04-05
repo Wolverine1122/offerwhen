@@ -105,6 +105,16 @@ app.get('/api/companies/:companyId/oa', async (req, res) => {
   }
 });
 
+app.get('/api/scorePosition', async (req, res) => {
+  const { company, selectedSeason, selectedPlatform, scored, total } = req.query;
+  try {
+    const scorePosition = await company_model.getScorePosition(company, parseInt(selectedSeason), selectedPlatform, parseInt(scored), parseInt(total));
+    res.status(200).json(scorePosition);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.post('/api/companies/:companyId/oa', async (req, res) => {
   const { companyId } = req.params;
   const data = req.body;

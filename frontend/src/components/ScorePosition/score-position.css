@@ -1,0 +1,48 @@
+.score-position {
+  display: grid;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  justify-items: center;
+
+  & .platform-filter {
+    display: grid;
+    grid-template-columns: repeat(3, 150px) max-content;
+    column-gap: 1rem;
+    margin: 10px 0;
+    justify-content: start;
+    align-items: center;
+
+    & .input-set {
+      display: grid;
+      grid-template-columns: 1fr;
+      row-gap: 5px;
+
+      & select:focus {
+        outline: none;
+      }
+    }
+
+    & .submit-button {
+      align-self: last baseline;
+    }
+
+    & input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--highlight-color);
+      border-radius: 10px;
+      color: var(--background-color);
+      font-size: 1rem;
+      padding: 0.4rem 0.8rem;
+      box-sizing: border-box;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  & .score-position-info {
+    width: 80%;
+  }
+}

@@ -89,7 +89,7 @@ const Company = () => {
               </select>
             </div>
             <div>
-              <button type="submit" className="regular-button">
+              <button type="submit" className="action-button">
                 Search
               </button>
             </div>
