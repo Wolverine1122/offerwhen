@@ -249,6 +249,12 @@ const getScorePosition = async (company, selectedSeason, selectedPlatform, score
   }
   query += ` ORDER BY scored DESC;`;
 
+  if (isNaN(scored)) {
+    return 'Invalid score';
+  } else if (isNaN(total)) {
+    return 'Invalid total';
+  }
+
   try {
     const { rows } = await pool.query(query, params);
     if (!rows || rows.length === 0) {

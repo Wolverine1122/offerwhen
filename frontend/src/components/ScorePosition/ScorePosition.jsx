@@ -97,14 +97,14 @@ const ScorePosition = ({ company, selectedSeason, seasons }) => {
           </button>
         </div>
       </form>
-      {isSuccess && data !== "No results found" && (
+      {isSuccess && typeof data !== "string" && (
         <div className="score-position-info">
           You are in the top {data}% of all {selectedPlatform} submissions in
           the {getSeasonNameFromId(selectedSeason)} season.
         </div>
       )}
-      {isSuccess && data === "No results found" && (
-        <div className="error">No results found</div>
+      {isSuccess && typeof data === "string" && (
+        <div className="error">{data}</div>
       )}
       {isError && <div className="error">Error fetching data</div>}
     </div>
