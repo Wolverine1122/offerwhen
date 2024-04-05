@@ -233,8 +233,8 @@ const getCompanyOnlineAssessment = async (companyId, cursorDate, cursorId, limit
 const createCompanyOnlineAssessment = async (companyId, data) => {
   console.log('createCompanyOnlineAssessment');
   internal_company_id = await getCompanyIdFromName(companyId);
-  const query = 'INSERT INTO online_assessment (company_id, assessment_platform, assessment_date, status, scored, max_score) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
-  const params = [internal_company_id, data.platform, data.date, data.status, data.scored, data.total];
+  const query = 'INSERT INTO online_assessment (company_id, assessment_platform, assessment_date, status, scored, max_score, season_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
+  const params = [internal_company_id, data.platform, data.date, data.status, data.scored, data.total, data.season];
   try {
     return await new Promise((resolve, reject) => {
       pool.query(query, params, (error, results) => {

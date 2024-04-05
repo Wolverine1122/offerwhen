@@ -89,7 +89,7 @@ const Company = () => {
               </button>
             </div>
           </form>
-          <OnlineAssessment company={id} />
+          <OnlineAssessment company={id} seasons={seasons} />
         </div>
       )}
     </>

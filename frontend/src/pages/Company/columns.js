@@ -25,6 +25,10 @@ const COLUMNS = [
     Header: "Status",
     accessor: "status",
   },
+  {
+    Header: "Season",
+    accessor: "season_id",
+  }
 ];
 
 export default COLUMNS;

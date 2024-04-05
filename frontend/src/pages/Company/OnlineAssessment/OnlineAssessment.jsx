@@ -10,7 +10,7 @@ import chevronRight from "../../../icons/chevron-right.svg";
 import "./online-assessment.css";
 import NewScoreReport from "../../../components/NewScoreReport/NewScoreReport";
 
-const OnlineAssessment = ({ company }) => {
+const OnlineAssessment = ({ company, seasons }) => {
   const [selectedRows, setSelectedRows] = useState(new Set());
   const [queryCursorDate, setQueryCursorDate] = useState(
     new Date().toISOString(),
@@ -48,6 +48,12 @@ const OnlineAssessment = ({ company }) => {
     queryLimit: queryLimit,
     direction: direction,
   };
+
+  let tableData = data?.data || [];
+  tableData = tableData.map((row) => {
+    const season = seasons.find((season) => season.id === row.season_id);
+    return { ...row, season_id: season?.name || "All seasons" };
+  });
 
   const handleRowSelect = (rows) => {
     setSelectedRows(rows);
@@ -117,7 +123,7 @@ const OnlineAssessment = ({ company }) => {
           </div>
           <BasicTable
             column_struct={COLUMNS}
-            company_data={data.data}
+            company_data={tableData}
             onSelectedRows={handleRowSelect}
             manualPagination={true}
           />
@@ -161,6 +167,7 @@ const OnlineAssessment = ({ company }) => {
           queryInfo={queryInfo}
           handleShowNewPost={setShowNewPost}
           handleQueryDate={setQueryCursorDate}
+          seasons={seasons}
         />
       )}
       {showReport && (
@@ -175,6 +182,7 @@ const OnlineAssessment = ({ company }) => {
 
 OnlineAssessment.propTypes = {
   company: propTypes.string.isRequired,
+  seasons: propTypes.array.isRequired,
 };
 
 export default OnlineAssessment;

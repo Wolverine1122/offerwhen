@@ -5,12 +5,18 @@ import { createNewOnlineAssessmentData } from "../../Api";
 import close from "../../icons/close.svg";
 import "./new-post.css";
 
-const NewPost = ({ queryInfo, handleShowNewPost, handleQueryDate }) => {
+const NewPost = ({
+  queryInfo,
+  handleShowNewPost,
+  handleQueryDate,
+  seasons,
+}) => {
   const [date, setDate] = useState("");
   const [scored, setScored] = useState("");
   const [total, setTotal] = useState("");
   const [platform, setPlatform] = useState("");
   const [status, setStatus] = useState("");
+  const [season, setSeason] = useState("");
   const [dateErrorMessage, setDateErrorMessage] = useState("");
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const platformsOptions = [
@@ -56,9 +62,10 @@ const NewPost = ({ queryInfo, handleShowNewPost, handleQueryDate }) => {
       scored !== "" &&
       total !== "" &&
       platform !== "" &&
-      status !== "";
+      status !== "" &&
+      season !== "";
     setIsSubmitDisabled(!isFormValid);
-  }, [dateErrorMessage, date, scored, total, platform, status]);
+  }, [dateErrorMessage, date, scored, total, platform, status, season]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -70,6 +77,7 @@ const NewPost = ({ queryInfo, handleShowNewPost, handleQueryDate }) => {
         total: total,
         platform: platform,
         status: status,
+        season: season,
       },
     });
   };
@@ -113,6 +121,11 @@ const NewPost = ({ queryInfo, handleShowNewPost, handleQueryDate }) => {
         }
       }
     }
+  };
+
+  const getSeasonIdFromName = (seasonName) => {
+    const season = seasons.find((season) => season.name === seasonName);
+    return season.id;
   };
 
   return (
@@ -198,6 +211,24 @@ const NewPost = ({ queryInfo, handleShowNewPost, handleQueryDate }) => {
             </select>
           </div>
         </div>
+        <div className="input-set">
+          <label htmlFor="season-select">Season:</label>
+          <div className="custom-select">
+            <select
+              className="regular-select"
+              value={season.name}
+              id="season-select"
+              onChange={(e) => setSeason(getSeasonIdFromName(e.target.value))}
+            >
+              <option value="">Select season</option>
+              {seasons.map((season) => (
+                <option key={season.id} value={season.name}>
+                  {season.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
         {createNewPostMutation.isError && (
           <div className="error-message">
             {createNewPostMutation.error.message}
@@ -228,6 +259,7 @@ NewPost.propTypes = {
   }).isRequired,
   handleShowNewPost: propTypes.func.isRequired,
   handleQueryDate: propTypes.func.isRequired,
+  seasons: propTypes.array.isRequired,
 };
 
 export default NewPost;
