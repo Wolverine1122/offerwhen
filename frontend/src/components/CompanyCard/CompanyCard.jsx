@@ -15,7 +15,7 @@ const CompanyCard = ({ company }) => {
   }
 
   const handleClick = () => {
-    navigate("/companies/" + company.company_id);
+    navigate("/companies/" + company.name);
   };
 
   return (

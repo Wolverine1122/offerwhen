@@ -61,13 +61,13 @@ const getCompanies = async (safeCursorCompanyId, safeEntriesId, limit, direction
   if (searchParams && searchParams.search) {
     search = searchParams.search;
   }
-  if (searchParams && searchParams.season && searchParams.season !== "All" && seasons) {
+  if (searchParams && searchParams.season && searchParams.season !== "All seasons" && seasons) {
     const seasonMatch = seasons.find(season => season.name === searchParams.season);
     if (seasonMatch) {
       season = seasonMatch.id;
     }
   }
-  if (searchParams && searchParams.companyType && searchParams.companyType !== "All" && companyTypes) {
+  if (searchParams && searchParams.companyType && searchParams.companyType !== "All companies" && companyTypes) {
     const companyTypeMatch = companyTypes.find(companyType => companyType.name === searchParams.companyType);
     if (companyTypeMatch) {
       companyType = companyTypeMatch.id;
@@ -131,7 +131,7 @@ const getCompanies = async (safeCursorCompanyId, safeEntriesId, limit, direction
 
 const getCompany = async (companyId) => {
   console.log('getCompany');
-  const query = 'SELECT * FROM company WHERE company_id = $1';
+  const query = 'SELECT * FROM company WHERE name = $1';
   try {
     return await new Promise((resolve, reject) => {
       pool.query(query, [companyId], (error, results) => {
@@ -147,6 +147,27 @@ const getCompany = async (companyId) => {
   } catch (error) {
     console.error(error.message);
     throw new Error(`Internal server error for retrieving company ${companyId}`);
+  }
+};
+
+const getCompanyIdFromName = async (companyName) => {
+  console.log('getCompanyIdFromName');
+  const query = 'SELECT company_id FROM company WHERE name = $1';
+  try {
+    return await new Promise((resolve, reject) => {
+      pool.query(query, [companyName], (error, results) => {
+        if (error) {
+          reject(error);
+        } else if (results && results.rows && results.rows.length > 0) {
+          resolve(results.rows[0].company_id);
+        } else {
+          reject(new Error('No results found'));
+        }
+      });
+    })
+  } catch (error) {
+    console.error(error.message);
+    throw new Error(`Internal server error for retrieving company id from name ${companyName}`);
   }
 };
 
@@ -167,6 +188,9 @@ const getCompanyOnlineAssessment = async (companyId, cursorDate, cursorId, limit
   const sortDirection = direction === 'prev' ? 'ASC' : 'DESC';
   let query;
   let params;
+
+  internal_company_id = await getCompanyIdFromName(companyId);
+
   if (cursorId) {
     query = `
       SELECT * FROM online_assessment 
@@ -174,7 +198,7 @@ const getCompanyOnlineAssessment = async (companyId, cursorDate, cursorId, limit
       ORDER BY entry_date ${sortDirection}, assessment_id ${sortDirection} 
       LIMIT $4
     `;
-    params = [companyId, cursorDate, cursorId, limit];
+    params = [internal_company_id, cursorDate, cursorId, limit];
   } else {
     query = `
       SELECT * FROM online_assessment 
@@ -182,7 +206,7 @@ const getCompanyOnlineAssessment = async (companyId, cursorDate, cursorId, limit
       ORDER BY entry_date ${sortDirection}, assessment_id ${sortDirection} 
       LIMIT $3
     `;
-    params = [companyId, cursorDate, limit];
+    params = [internal_company_id, cursorDate, limit];
   }
 
   try {
@@ -208,8 +232,9 @@ const getCompanyOnlineAssessment = async (companyId, cursorDate, cursorId, limit
 
 const createCompanyOnlineAssessment = async (companyId, data) => {
   console.log('createCompanyOnlineAssessment');
+  internal_company_id = await getCompanyIdFromName(companyId);
   const query = 'INSERT INTO online_assessment (company_id, assessment_platform, assessment_date, status, scored, max_score) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
-  const params = [companyId, data.platform, data.date, data.status, data.scored, data.total];
+  const params = [internal_company_id, data.platform, data.date, data.status, data.scored, data.total];
   try {
     return await new Promise((resolve, reject) => {
       pool.query(query, params, (error, results) => {

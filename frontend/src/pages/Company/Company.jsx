@@ -1,16 +1,33 @@
-import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import OnlineAssessment from "./OnlineAssessment/OnlineAssessment";
-import { fetchCompany } from "../../Api";
+import { fetchCompany, fetchSeasons } from "../../Api";
 import "./company.css";
 
 const Company = () => {
   const { id } = useParams();
+  const [seasons, setSeasons] = useState([{ id: null, name: "All seasons" }]);
+  const [season, setSeason] = useState("All seasons");
+  const [searchParams, setSearchParams] = useSearchParams({
+    season: "All seasons",
+  });
 
   const { isLoading, isError, data, isSuccess } = useQuery({
-    queryKey: ["companies", id],
-    queryFn: () => fetchCompany(id),
+    queryKey: ["companies", id, season],
+    queryFn: () => fetchCompany(id, season),
   });
+
+  const seasonQuery = useQuery({
+    queryKey: ["seasons"],
+    queryFn: () => fetchSeasons(),
+  });
+
+  useEffect(() => {
+    if (seasonQuery.isSuccess) {
+      setSeasons(seasonQuery.data);
+    }
+  }, [seasonQuery]);
 
   let logoBase64 = null;
   if (data && data.logo) {
@@ -21,6 +38,11 @@ const Company = () => {
     }
     logoBase64 = "data:image/png;base64," + btoa(binary);
   }
+
+  const handleSubmitFilter = (e) => {
+    e.preventDefault();
+    setSeason(searchParams.get("season"));
+  };
 
   return (
     <>
@@ -41,6 +63,32 @@ const Company = () => {
               <p className="company-about">{data.about}</p>
             </div>
           </div>
+          <form onSubmit={handleSubmitFilter} className="season-filter">
+            <div className="custom-select">
+              <select
+                value={searchParams.get("season")}
+                className="regular-select"
+                onChange={(e) => {
+                  const newSearchParams = new URLSearchParams(
+                    searchParams.toString(),
+                  );
+                  newSearchParams.set("season", e.target.value);
+                  setSearchParams(newSearchParams);
+                }}
+              >
+                {seasons.map((season) => (
+                  <option key={season.id} value={season.name}>
+                    {season.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <button type="submit" className="regular-button">
+                Search
+              </button>
+            </div>
+          </form>
           <OnlineAssessment company={id} />
         </div>
       )}

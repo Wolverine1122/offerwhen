@@ -11,9 +11,9 @@ import chevronRight from "../../icons/chevron-right.svg";
 import "./companies.css";
 
 const Companies = () => {
-  const [seasons, setSeasons] = useState([{ id: null, name: "All" }]);
+  const [seasons, setSeasons] = useState([{ id: null, name: "All seasons" }]);
   const [companyTypes, setcompanyTypes] = useState([
-    { id: null, name: "General" },
+    { id: null, name: "All companies" },
   ]);
   const [showInfo, setShowInfo] = useState(false);
   const [showNewCompany, setShowNewCompany] = useState(false);
@@ -23,13 +23,13 @@ const Companies = () => {
   const [direction, setDirection] = useState("next");
   const [searchParamsForQuery, setSearchParamsForQuery] = useState({
     search: "",
-    season: "All",
-    companyType: "All",
+    season: "All seasons",
+    companyType: "All companies",
   });
   const [searchParams, setSearchParams] = useSearchParams({
     search: "",
-    season: "All",
-    companyType: "All",
+    season: "All seasons",
+    companyType: "All companies",
   });
 
   const { isLoading, isError, data, isSuccess } = useQuery({
