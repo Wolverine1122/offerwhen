@@ -44,6 +44,11 @@ const Company = () => {
     setSeason(searchParams.get("season"));
   };
 
+  const getSeasonIdFromName = (name) => {
+    const season = seasons.find((season) => season.name === name);
+    return season?.id || 7;
+  };
+
   return (
     <>
       {isLoading && <div>Loading...</div>}
@@ -89,7 +94,11 @@ const Company = () => {
               </button>
             </div>
           </form>
-          <OnlineAssessment company={id} seasons={seasons} />
+          <OnlineAssessment
+            company={id}
+            seasons={seasons}
+            selectedSeason={getSeasonIdFromName(season)}
+          />
         </div>
       )}
     </>

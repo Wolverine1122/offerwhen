@@ -76,21 +76,21 @@ app.get('/api/companies/:companyId', async (req, res) => {
 
 app.get('/api/companies/:companyId/oa', async (req, res) => {
   const { companyId } = req.params;
-  const { cursorDate, cursorId, limit, direction } = req.query;
+  const { cursorDate, cursorId, limit, direction, selectedSeason } = req.query;
   const safeCursorId = cursorId === 'null' ? null : cursorId;
   try {
-    const initialResults = await company_model.getCompanyOnlineAssessment(companyId, cursorDate, safeCursorId, parseInt(limit), direction);
+    const initialResults = await company_model.getCompanyOnlineAssessment(companyId, cursorDate, safeCursorId, parseInt(limit), direction, parseInt(selectedSeason));
     let hasNextPage = false;
     let hasPrevPage = false;
 
     if (initialResults.length > 0) {
       const nextPageCursorId = initialResults[initialResults.length - 1].assessment_id;
       const nextPageCursorDate = initialResults[initialResults.length - 1].entry_date.toISOString();
-      const nextPageResults = await company_model.getCompanyOnlineAssessment(companyId, nextPageCursorDate, nextPageCursorId, 1, "next");
+      const nextPageResults = await company_model.getCompanyOnlineAssessment(companyId, nextPageCursorDate, nextPageCursorId, 1, "next", parseInt(selectedSeason));
 
       const prevPageCursorId = initialResults[0].assessment_id;
       const prevPageCursorDate = initialResults[0].entry_date.toISOString();
-      const prevPageResults = await company_model.getCompanyOnlineAssessment(companyId, prevPageCursorDate, prevPageCursorId, 1, "prev");
+      const prevPageResults = await company_model.getCompanyOnlineAssessment(companyId, prevPageCursorDate, prevPageCursorId, 1, "prev", parseInt(selectedSeason));
       hasNextPage = nextPageResults.length > 0;
       hasPrevPage = prevPageResults.length > 0;
     }

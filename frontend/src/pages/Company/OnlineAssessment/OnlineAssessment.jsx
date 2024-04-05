@@ -10,7 +10,7 @@ import chevronRight from "../../../icons/chevron-right.svg";
 import "./online-assessment.css";
 import NewScoreReport from "../../../components/NewScoreReport/NewScoreReport";
 
-const OnlineAssessment = ({ company, seasons }) => {
+const OnlineAssessment = ({ company, seasons, selectedSeason }) => {
   const [selectedRows, setSelectedRows] = useState(new Set());
   const [queryCursorDate, setQueryCursorDate] = useState(
     new Date().toISOString(),
@@ -29,6 +29,7 @@ const OnlineAssessment = ({ company, seasons }) => {
       queryCursorId,
       queryLimit,
       direction,
+      selectedSeason,
     ],
     keepPreviousData: true,
     queryFn: () =>
@@ -38,6 +39,7 @@ const OnlineAssessment = ({ company, seasons }) => {
         queryCursorId,
         queryLimit,
         direction,
+        selectedSeason,
       ),
   });
 
@@ -47,6 +49,7 @@ const OnlineAssessment = ({ company, seasons }) => {
     queryCursorId: queryCursorId,
     queryLimit: queryLimit,
     direction: direction,
+    selectedSeason: selectedSeason,
   };
 
   let tableData = data?.data || [];
@@ -183,6 +186,7 @@ const OnlineAssessment = ({ company, seasons }) => {
 OnlineAssessment.propTypes = {
   company: propTypes.string.isRequired,
   seasons: propTypes.array.isRequired,
+  selectedSeason: propTypes.number.isRequired,
 };
 
 export default OnlineAssessment;

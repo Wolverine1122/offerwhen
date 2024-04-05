@@ -171,7 +171,7 @@ const getCompanyIdFromName = async (companyName) => {
   }
 };
 
-const getCompanyOnlineAssessment = async (companyId, cursorDate, cursorId, limit, direction) => {
+const getCompanyOnlineAssessment = async (companyId, cursorDate, cursorId, limit, direction, selectedSeason) => {
   console.log('getCompanyOnlineAssessment');
   let idCompareOperator;
   switch (direction) {
@@ -186,28 +186,28 @@ const getCompanyOnlineAssessment = async (companyId, cursorDate, cursorId, limit
   }
   const dateCompareOperator = direction === 'prev' ? '>=' : '<=';
   const sortDirection = direction === 'prev' ? 'ASC' : 'DESC';
-  let query;
-  let params;
-
   internal_company_id = await getCompanyIdFromName(companyId);
 
-  if (cursorId) {
-    query = `
-      SELECT * FROM online_assessment 
-      WHERE company_id = $1 AND (entry_date ${dateCompareOperator} $2 AND assessment_id ${idCompareOperator} $3) 
-      ORDER BY entry_date ${sortDirection}, assessment_id ${sortDirection} 
-      LIMIT $4
-    `;
-    params = [internal_company_id, cursorDate, cursorId, limit];
-  } else {
-    query = `
-      SELECT * FROM online_assessment 
-      WHERE company_id = $1 AND entry_date ${dateCompareOperator} $2 
-      ORDER BY entry_date ${sortDirection}, assessment_id ${sortDirection} 
-      LIMIT $3
-    `;
-    params = [internal_company_id, cursorDate, limit];
+  let query = "SELECT * FROM online_assessment WHERE 1=1";
+  let params = [];
+  if (internal_company_id) {
+    query += ` AND company_id = $1`;
+    params.push(internal_company_id);
   }
+  if (cursorId) {
+    query += ` AND (entry_date ${dateCompareOperator} $${params.length + 1} AND assessment_id ${idCompareOperator} $${params.length + 2})`;
+    params.push(cursorDate, cursorId);
+  } else {
+    query += ` AND entry_date ${dateCompareOperator} $${params.length + 1}`;
+    params.push(cursorDate);
+  }
+  if (selectedSeason !== 7) {
+    query += ` AND season_id = $${params.length + 1}`
+    params.push(selectedSeason);
+  }
+  query += ` ORDER BY entry_date ${sortDirection}, 
+      assessment_id ${sortDirection} LIMIT $${params.length + 1};`
+  params.push(limit);
 
   try {
     return await new Promise((resolve, reject) => {

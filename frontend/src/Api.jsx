@@ -37,10 +37,11 @@ const fetchOnlineAssessmentData = (
   cursorId,
   limit,
   direction = "next",
+  selectedSeaon,
 ) => {
   return axios
     .get(
-      `http://localhost:3001/api/companies/${companyId}/oa?cursorDate=${cursorDate}&cursorId=${cursorId}&limit=${limit}&direction=${direction}`,
+      `http://localhost:3001/api/companies/${companyId}/oa?cursorDate=${cursorDate}&cursorId=${cursorId}&limit=${limit}&direction=${direction}&selectedSeason=${selectedSeaon}`,
     )
     .then((res) => res.data);
 };

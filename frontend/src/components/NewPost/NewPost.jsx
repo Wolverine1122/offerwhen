@@ -42,6 +42,7 @@ const NewPost = ({
           queryInfo.queryCursorId,
           queryInfo.queryLimit,
           queryInfo.direction,
+          queryInfo.selectedSeason,
         ],
         {
           exact: true,
@@ -256,6 +257,7 @@ NewPost.propTypes = {
     ]),
     queryLimit: propTypes.number.isRequired,
     direction: propTypes.string.isRequired,
+    selectedSeason: propTypes.number.isRequired,
   }).isRequired,
   handleShowNewPost: propTypes.func.isRequired,
   handleQueryDate: propTypes.func.isRequired,
