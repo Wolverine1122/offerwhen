@@ -230,6 +230,40 @@ const getCompanyOnlineAssessment = async (companyId, cursorDate, cursorId, limit
   }
 };
 
+const getOnlineAssessmentStats = async (companyId, selectedSeason) => {
+  console.log('getOnlineAssessmentStats');
+  internal_company_id = await getCompanyIdFromName(companyId);
+  let query = `
+    SELECT scored
+    FROM online_assessment 
+    WHERE company_id = $1 
+    AND status = $2
+  `;
+  let params = [internal_company_id, 'accepted'];
+  if (selectedSeason !== 7) {
+    query += ` AND season_id = $${params.length + 1}`;
+    params.push(selectedSeason);
+  }
+  query += ` ORDER BY scored;`;
+
+  try {
+    const { rows } = await pool.query(query, params);
+    if (!rows || rows.length === 0) {
+      return 'No results found';
+    }
+    const allScores = rows.map(row => row.scored);
+    const upperQuartile = allScores[Math.floor(allScores.length * 0.75)];
+    const median = allScores[Math.floor(allScores.length * 0.5)];
+    const lowerQuartile = allScores[Math.floor(allScores.length * 0.25)];
+    const minimum = allScores[0];
+    return { upperQuartile, median, lowerQuartile, minimum };
+  }
+  catch (error) {
+    console.error(error.message);
+    throw new Error(error.message);
+  }
+}
+
 const getScorePosition = async (company, selectedSeason, selectedPlatform, scored, total) => {
   console.log('getScorePosition');
   internal_company_id = await getCompanyIdFromName(company);
@@ -356,6 +390,7 @@ module.exports = {
   getCompanyOnlineAssessment,
   createCompanyOnlineAssessment,
   getScorePosition,
+  getOnlineAssessmentStats,
   createCompany,
   createScoreReport
 };

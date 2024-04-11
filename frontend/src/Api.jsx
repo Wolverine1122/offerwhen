@@ -60,6 +60,14 @@ const fetchScorePosition = (
     .then((res) => res.data);
 };
 
+const fetchOnlineAssessmentStats = (company, selectedSeason) => {
+  return axios
+    .get(
+      `http://localhost:3001/api/companies/${company}/oa/stats?selectedSeason=${selectedSeason}`,
+    )
+    .then((res) => res.data);
+};
+
 const createNewOnlineAssessmentData = (newOAData) => {
   return axios
     .post(
@@ -88,6 +96,7 @@ export {
   fetchCompany,
   fetchOnlineAssessmentData,
   fetchScorePosition,
+  fetchOnlineAssessmentStats,
   createNewOnlineAssessmentData,
   createNewCompany,
   createNewScoreReport,

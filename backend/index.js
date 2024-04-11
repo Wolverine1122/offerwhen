@@ -105,6 +105,18 @@ app.get('/api/companies/:companyId/oa', async (req, res) => {
   }
 });
 
+app.get('/api/companies/:companyId/oa/stats', async (req, res) => {
+  const { companyId } = req.params;
+  const { selectedSeason } = req.query;
+  try {
+    const stats = await company_model.getOnlineAssessmentStats(companyId, parseInt(selectedSeason));
+    res.status(200).json(stats);
+  }
+  catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.get('/api/scorePosition', async (req, res) => {
   const { company, selectedSeason, selectedPlatform, scored, total } = req.query;
   try {
@@ -145,6 +157,8 @@ app.post('/api/scoreReports', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)

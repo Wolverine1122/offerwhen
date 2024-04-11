@@ -10,6 +10,7 @@ import chevronRight from "../../../icons/chevron-right.svg";
 import "./online-assessment.css";
 import NewScoreReport from "../../../components/NewScoreReport/NewScoreReport";
 import ScorePosition from "../../../components/ScorePosition/ScorePosition";
+import Stats from "../../../components/Stats/Stats";
 
 const OnlineAssessment = ({ company, seasons, selectedSeason }) => {
   const [selectedRows, setSelectedRows] = useState(new Set());
@@ -173,6 +174,13 @@ const OnlineAssessment = ({ company, seasons, selectedSeason }) => {
           </div>
         </div>
       </div>
+      {isSuccess && (
+        <Stats
+          selectedSeason={selectedSeason}
+          seasons={seasons}
+          company={company}
+        />
+      )}
       {showNewPost && (
         <NewPost
           queryInfo={queryInfo}

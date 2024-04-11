@@ -1,0 +1,9 @@
+.oa-stats {
+  display: grid;
+  row-gap: 1rem;
+  margin-top: 2rem;
+
+  & h3 {
+    text-align: center;
+  }
+}
