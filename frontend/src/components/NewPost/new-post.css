@@ -36,7 +36,7 @@
     grid-area: form;
     display: grid;
     grid-template-columns: 1fr;
-    row-gap: 1rem;
+    row-gap: 0.5rem;
 
     & .input-set {
       display: grid;
@@ -69,7 +69,7 @@
     }
 
     & button {
-      margin-top: 2rem;
+      margin-top: 1rem;
 
       &:disabled {
         cursor: not-allowed;
